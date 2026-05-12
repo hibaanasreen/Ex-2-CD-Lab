@@ -32,6 +32,44 @@
 7.	Compile that file with C compiler and verify the output.
 
 # INPUT
+```python
+%{
+#include <stdio.h>
+#include <ctype.h>
+%}
+
+%%
+
+"if"        { printf("Keyword: %s\n", yytext); }
+"else"      { printf("Keyword: %s\n", yytext); }
+"while"     { printf("Keyword: %s\n", yytext); }
+"for"       { printf("Keyword: %s\n", yytext); }
+
+[0-9]+      { printf("Number: %s\n", yytext); }
+[a-zA-Z_][a-zA-Z0-9_]*   { printf("Identifier: %s\n", yytext); }
+
+"=="|"="    { printf("Operator: %s\n", yytext); }
+"+"|"-"|"*"|"/" { printf("Operator: %s\n", yytext); }
+
+[ \t\n]     ;   // Ignore whitespace
+.           { printf("Unknown: %s\n", yytext); }
+
+%%
+
+int main(int argc, char **argv) {
+    yylex();
+    return 0;
+}
+
+int yywrap() {
+    return 1;
+}
+```
+```
+INPUT:(a+b)*c
+```
 # OUTPUT
+<img width="665" height="273" alt="image" src="https://github.com/user-attachments/assets/8c616d3b-04a5-48a9-b9ec-749ee6202006" />
+
 # RESULT
 ## The lexical analyzer is implemented using lex and the output is verified.
